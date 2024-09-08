@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AccountStatus;
 use App\Enums\UserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,11 +21,11 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('address')->nullable();
             $table->enum('role', UserRole::getValues())->default(UserRole::GUEST); // trạng thái đặt phòng
-            $table->string('status')->default('active');
+            $table->enum('status', AccountStatus::getValues())->default(AccountStatus::ACTIVE); // trạng thái tài khoản
             $table->string('birthday')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
 

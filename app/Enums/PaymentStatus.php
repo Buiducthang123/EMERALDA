@@ -3,9 +3,9 @@
 namespace App\Enums;
 class PaymentStatus
 {
-    const PENDING = 'pending';
-    const PAID = 'paid';
-    const FAILED = 'failed';
+    const PENDING = 1;
+    const PAID = 2;
+    const FAILED = 3;
 
     public static function getValues()
     {
