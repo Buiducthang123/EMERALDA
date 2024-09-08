@@ -13,7 +13,7 @@ class AuthService
 
     public function login($email, $password)
     {
-        $user = $this->authRepo->getUserByUsername($email);
+        $user = $this->authRepo->getUserByEmail($email);
         if (!$user) {
             return response()->json([
                 'message' => 'Tên đăng nhập không tồn tại',
@@ -37,6 +37,13 @@ class AuthService
     public function register($data)
     {
         $data['password'] = bcrypt($data['password']);
+
+        $user = $this->authRepo->getUserByEmail($data['email']);
+        if ($user) {
+            return response()->json([
+                'message' => 'Email đã tồn tại',
+            ], 400);
+        }
 
         $user = $this->authRepo->create($data);
 
