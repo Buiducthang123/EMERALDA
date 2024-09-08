@@ -9,8 +9,9 @@ class AuthRepository extends BaseRepository{
         return User::class;
     }
 
-    public function getUserByEmail($email): User
+    public function getUserByEmail($email): User|null
     {
         return $this->getModel()::where('email', $email)->first();
+
     }
 }

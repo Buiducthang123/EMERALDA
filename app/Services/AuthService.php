@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Repositories\AuthRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
@@ -19,8 +20,8 @@ class AuthService
                 'message' => 'Tên đăng nhập không tồn tại',
             ], 404);
         }
-
-        if (!password_verify($password, $user->password)) {
+        $credential = Auth::attempt(['email' => $email, 'password' => $password]);
+        if (!$credential) {
             return response()->json([
                 'message' => 'Mật khẩu không chính xác',
             ], 401);
@@ -39,6 +40,7 @@ class AuthService
         $data['password'] = bcrypt($data['password']);
 
         $user = $this->authRepo->getUserByEmail($data['email']);
+
         if ($user) {
             return response()->json([
                 'message' => 'Email đã tồn tại',

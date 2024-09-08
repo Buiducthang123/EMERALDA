@@ -73,4 +73,15 @@ abstract class BaseRepository implements RepositoryInterface
 
         return false;
     }
+
+    public function softDelete($id)
+    {
+        $result = $this->find($id);
+        if ($result) {
+            $result->deleted_at = now();
+            $result->save();
+            return true;
+        }
+        return false;
+    }
 }

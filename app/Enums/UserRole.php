@@ -3,10 +3,10 @@ namespace App\Enums;
 
 class UserRole
 {
-    const GUEST = 'guest'; //Khách hàng
-    const RECEPTIONIST = 'receptionist'; //Lễ tân
-    const MANAGER = 'manager'; // QUản lý
-    const ADMIN = 'admin'; // Quản trị viên
+    const GUEST = 1; //Khách hàng
+    const RECEPTIONIST = 2; //Lễ tân
+    const MANAGER = 3; // QUản lý
+    const ADMIN = 4; // Quản trị viên
 
     public static function getValues()
     {
