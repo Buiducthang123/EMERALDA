@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // $middleware->group('api', [
         //     AdminMiddleware::class,
         // ]);
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
