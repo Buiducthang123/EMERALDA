@@ -24,6 +24,7 @@ return new class extends Migration
             $table->json('amenities')->nullable(); // tiện nghi trong phòng
             $table->integer('adults')->default(0); // số người lớn
             $table->integer('children')->default(0); // số trẻ em
+            $table->integer('area')->nullable();  //diện tích
             $table->timestamps();
         });
     }

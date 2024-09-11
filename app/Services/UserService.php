@@ -25,9 +25,9 @@ class UserService
         return $this->userRepo->delete($id);
     }
 
-    public function getAll()
+    public function getAll($filters = [])
     {
-        return $this->userRepo->getAll();
+        return $this->userRepo->getAll($filters);
     }
 
     public function softDelete($id)

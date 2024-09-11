@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\RoomService;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    protected $roomService;
+
+    /**
+     * Class constructor.
+     */
+    public function __construct(RoomService $roomService)
+    {
+        $this->roomService = $roomService;
+    }
     /**
      * Show the form for creating the resource.
      */
+    public function index(Request $request)
+    {
+        $filters = [
+            'room_type_id' => $request->room_type_id,
+            'status' => $request->status,
+            'room_number' => $request->room_number
+        ];
+       return $this->roomService->getAllRooms($filters);
+    }
     public function create(): never
     {
         abort(404);

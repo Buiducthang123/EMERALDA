@@ -16,10 +16,13 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Auth::user();
-        return $this->userService->getAll();
+        $filters = [
+            'role' => $request->query('role'),
+            'status' => $request->query('status'),
+        ];
+        return $this->userService->getAll($filters);
     }
 
     public function create(Request $request)
@@ -53,6 +56,11 @@ class UserController extends Controller
     {
         $data = $request->all();
         return $this->userService->updateMe($data, $id);
+    }
+
+    public function getUserInfo()
+    {
+        return response()->json(Auth::user());
     }
 
 }
