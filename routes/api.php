@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\UserController;
@@ -36,4 +38,15 @@ Route::prefix('rooms')->middleware(['auth:sanctum',AdminMiddleware::class])->gro
 //RoomType
 Route::prefix('room-types')->group(function(){
     Route::get('',[RoomTypeController::class,'index'])->name('room-types.index');
+});
+
+//Amenity
+Route::prefix('amenities')->group(function(){
+    Route::get('',action: [AmenityController::class,'index'])->name('amenities.index');
+});
+
+
+//Feature
+Route::prefix('features')->group(function(){
+    Route::get('', [FeatureController::class, 'index'])->name('features.index');
 });
