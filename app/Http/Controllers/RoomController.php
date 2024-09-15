@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoomStatus;
 use App\Services\RoomService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -36,9 +38,22 @@ class RoomController extends Controller
     /**
      * Store the newly created resource in storage.
      */
-    public function store(Request $request): never
+    public function store(Request $request)
     {
-        abort(404);
+        $roomStatus = RoomStatus::getValues();
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:' . implode(',', $roomStatus),
+            'room_type_id' => 'required',
+            'main_image' => 'required',
+            'area' => 'required',
+            'adults' => 'required',
+            'children' => 'required',
+            'price' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        return $this->roomService->createRoom($request->all());
     }
 
     /**
@@ -60,9 +75,22 @@ class RoomController extends Controller
     /**
      * Update the resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id): mixed
     {
-        //
+        $roomStatus = RoomStatus::getValues();
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:' . implode(',', $roomStatus),
+            'room_type_id' => 'required',
+            'main_image' => 'required',
+            'area' => 'required',
+            'adults' => 'required',
+            'children' => 'required',
+            'price' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        return $this->roomService->updateRoom($id, $request->all());
     }
 
     /**
@@ -71,5 +99,10 @@ class RoomController extends Controller
     public function destroy(): never
     {
         abort(404);
+    }
+
+    public function delete($id)
+    {
+        return $this->roomService->deleteRoom($id);
     }
 }

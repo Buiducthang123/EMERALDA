@@ -21,13 +21,19 @@ class Room extends Model
         'amenities',
         'adults',
         'children',
+        'features',
         'total_guests',
     ];
 
-    protected $casts = [
-        'thumbnails' => 'array',
-        'amenities' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'thumbnails' => 'array',
+            'amenities' => 'array',
+            'features' => 'array',
+            'status' => 'integer',
+        ];
+    }
 
     public function roomType()
     {
@@ -42,5 +48,9 @@ class Room extends Model
     public function amenities()
     {
         return $this->belongsToMany(Amenity::class, 'amenity_room');
+    }
+    public function getThumbnailsAttribute($value)
+    {
+        return json_decode($value, true);
     }
 }

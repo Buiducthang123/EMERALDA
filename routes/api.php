@@ -30,8 +30,11 @@ Route::prefix('user')->group(function(){
 });
 
 //Room
+Route::get('/rooms',[RoomController::class,'index'])->name('rooms.index');
 Route::prefix('rooms')->middleware(['auth:sanctum',AdminMiddleware::class])->group(function(){
-    Route::get('',[RoomController::class,'index'])->name('rooms.index');
+    Route::patch('/{id}',[RoomController::class,'update'])->name('rooms.update');
+    Route::post('',[RoomController::class,'store'])->name('rooms.store');
+    Route::delete('/{id}',[RoomController::class,'delete'])->name('rooms.delete');
 });
 
 

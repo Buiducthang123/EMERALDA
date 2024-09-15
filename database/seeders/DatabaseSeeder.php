@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            // AdminSeeder::class,
-            // RoomTypeSeeder::class,
-            // RoomSeeder::class,
-            // AmenitySeeder::class,
+            AdminSeeder::class,
+            RoomTypeSeeder::class,
+            RoomSeeder::class,
+            AmenitySeeder::class,
             FeatureSeeder::class,
         ]);
     }
