@@ -18,4 +18,16 @@ class AmenityService {
     public function getAll(){
         return $this->amenityRepository->getAll();
     }
+
+    public function update($id, $data){
+        return $this->amenityRepository->update($id, $data);
+    }
+
+    public function create($data){
+        return $this->amenityRepository->create($data);
+    }
+
+    public function delete($id){
+        return $this->amenityRepository->delete($id);
+    }
 }

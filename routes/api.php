@@ -44,12 +44,19 @@ Route::prefix('room-types')->group(function(){
 });
 
 //Amenity
-Route::prefix('amenities')->group(function(){
-    Route::get('',action: [AmenityController::class,'index'])->name('amenities.index');
+Route::get('amenities',action: [AmenityController::class,'index'])->name('amenities.index');
+Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])->group(function(){
+    Route::post('',action: [AmenityController::class,'create'])->name('amenities.create');
+    Route::patch('/{id}',[AmenityController::class,'update'])->name('amenities.update');
+    Route::delete('/{id}',[AmenityController::class,'delete'])->name('amenities.delete');
+
 });
 
 
 //Feature
-Route::prefix('features')->group(function(){
-    Route::get('', [FeatureController::class, 'index'])->name('features.index');
+Route::get('features', [FeatureController::class, 'index'])->name('features.index');
+Route::prefix('/features')->middleware(['auth:sanctum',AdminMiddleware::class])->group(function(){
+    Route::patch('/{id}',[FeatureController::class,'update'])->name('features.update');
+    Route::delete('/{id}',[FeatureController::class,'delete'])->name('features.delete');
+    Route::post('/',[FeatureController::class,'create'])->name('features.create');
 });
