@@ -24,8 +24,7 @@ class RoomRepository extends BaseRepository
             $query->where('room_number', 'like', '%' . $filters['room_number'] . '%');
         }
 
-        return $query->with(['roomType'])->get();
+        return $query->with(['roomType'])->latest()->paginate(5);
     }
-
 
 }
