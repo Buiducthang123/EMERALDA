@@ -17,5 +17,19 @@ class FeatureService
         return $this->featureRepository->getAll();
     }
 
+    public function update($id, $data)
+    {
+        return $this->featureRepository->update($id, $data);
+    }
+
+    public function delete($id)
+    {
+        return $this->featureRepository->delete($id);
+    }
+
+    public function create($data)
+    {
+        return $this->featureRepository->create($data);
+    }
 
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('amenity_room', function (Blueprint $table) {
+        Schema::create('amenity_room', callback: function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade'); // phòng
             $table->foreignId('amenity_id')->constrained('amenities')->onDelete('cascade'); // tiện nghi
