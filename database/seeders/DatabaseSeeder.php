@@ -19,10 +19,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AdminSeeder::class,
+            UserSeeder::class,
             RoomTypeSeeder::class,
             RoomSeeder::class,
             AmenitySeeder::class,
             FeatureSeeder::class,
+
         ]);
     }
 }
