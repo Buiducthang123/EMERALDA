@@ -17,7 +17,7 @@ Route::post('/login',[AuthController::class,'login'])->name('login');
 Route::prefix('users')->middleware(['auth:sanctum',AdminMiddleware::class])->group(function(){
     Route::get('/all',[UserController::class,'getAll'])->name('users.all');
     Route::post('/create',[UserController::class,'create'])->name('users.create');
-    Route::put('/update/{id}',[UserController::class,'update'])->name('users.update');
+    Route::patch('/update/{id}',[UserController::class,'update'])->name('users.update');
     Route::delete('/delete/{id}',[UserController::class,'delete'])->name('users.delete');
     Route::delete('/soft-delete/{id}',[UserController::class,'softDelete'])->name('users.soft-delete');
     Route::get('info',[UserController::class,'getUserInfo'])->name('users.info');

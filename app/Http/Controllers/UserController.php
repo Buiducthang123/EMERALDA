@@ -33,8 +33,22 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        return $this->userService->update($id, $data);
+        try {
+            $result = $this->userService->update($id,$request->all());
+            if ($result) {
+                return response()->json([
+                    "message" => "Cập nhật thành công"
+                ], 200);
+            } else {
+                return response()->json([
+                    "message" => "Cập nhật thất bại"
+                ], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                "message"=> $e->getMessage()
+                ], 500);
+            }
     }
 
     public function delete($id)
