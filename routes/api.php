@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
+use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -60,3 +61,7 @@ Route::prefix('/features')->middleware(['auth:sanctum',AdminMiddleware::class])-
     Route::delete('/{id}',[FeatureController::class,'delete'])->name('features.delete');
     Route::post('/',[FeatureController::class,'create'])->name('features.create');
 });
+
+
+//
+Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
