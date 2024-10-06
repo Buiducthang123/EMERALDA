@@ -42,6 +42,8 @@ Route::prefix('rooms')->middleware(['auth:sanctum',AdminMiddleware::class])->gro
 //RoomType
 Route::prefix('room-types')->group(function(){
     Route::get('',[RoomTypeController::class,'index'])->name('room-types.index');
+    Route::post('',[RoomTypeController::class,'create'])->name('room-types.create');
+    Route::patch('/{id}',[RoomTypeController::class,'update'])->name('room-types.update');
 });
 
 //Amenity

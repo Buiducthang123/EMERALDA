@@ -25,7 +25,12 @@ class RoomTypeController extends Controller
 
     public function update(Request $request, $id)
     {
-        return $this->roomTypeService->updateRoomType($request, $id);
+        return $this->roomTypeService->updateRoomType($request->all(), $id);
+    }
+
+    public function create(Request $request)
+    {
+        return $this->roomTypeService->create($request->all());
     }
 
 }
