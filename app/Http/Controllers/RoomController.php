@@ -44,11 +44,6 @@ class RoomController extends Controller
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:' . implode(',', $roomStatus),
             'room_type_id' => 'required',
-            'main_image' => 'required',
-            'area' => 'required',
-            'adults' => 'required',
-            'children' => 'required',
-            'price' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -81,11 +76,6 @@ class RoomController extends Controller
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:' . implode(',', $roomStatus),
             'room_type_id' => 'required',
-            'main_image' => 'required',
-            'area' => 'required',
-            'adults' => 'required',
-            'children' => 'required',
-            'price' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

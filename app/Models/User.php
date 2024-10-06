@@ -44,6 +44,12 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'role' => 'integer',
+        ];
+    }
 
     public function roomTypeReviews()
     {

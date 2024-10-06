@@ -13,24 +13,13 @@ class Room extends Model
     protected $fillable = [
         'room_number',
         'room_type_id',
-        'main_image',
-        'thumbnails',
         'status',
-        'price',
         'description',
-        'amenities',
-        'adults',
-        'children',
-        'features',
-        'total_guests',
     ];
 
     protected function casts(): array
     {
         return [
-            'thumbnails' => 'array',
-            'amenities' => 'array',
-            'features' => 'array',
             'status' => 'integer',
         ];
     }
