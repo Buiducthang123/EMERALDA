@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
+            $table->string('intro_description')->nullable(); // mô tả ngắn
             $table->string('main_image');
             $table->json('thumbnails');
             $table->json('amenities')->nullable(); // tiện nghi trong phòng
-            $table->json('features')->nullable(); // đặc điểm
             $table->unsignedInteger('max_people')->default(3); // Số người tối đa
             $table->decimal('price', 8, 2); // giá
             $table->unsignedInteger('area'); // diện tích
-            $table->text('description')->nullable();
+            $table->text('description')->nullable(); // mô tả
             $table->timestamps();
         });
     }
@@ -33,5 +33,6 @@ return new class extends Migration
     public function down(): void
     {
         //
+        // Schema::dropIfExists('room_types');
     }
 };

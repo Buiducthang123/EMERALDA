@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Amenity;
+use App\Models\Room;
 use App\Repositories\RepositoryInterface;
 
 abstract class BaseRepository implements RepositoryInterface
@@ -27,12 +29,22 @@ abstract class BaseRepository implements RepositoryInterface
             $this->getModel()
         );
     }
-
-    public function getAll()
+    public function getAll($limit = 0, $latest = false, $q = [])
     {
-        return $this->model->all();
-    }
+        $query = $this->model;
 
+        if ($latest) {
+            $query = $query->latest();
+        }
+
+        if ($limit > 0) {
+            $query = $query->limit($limit);
+        }
+
+        $data = $query->get();
+
+        return $data;
+    }
     public function find($id)
     {
         $result = $this->model->find($id);
@@ -85,4 +97,6 @@ abstract class BaseRepository implements RepositoryInterface
         }
         return false;
     }
+
+
 }

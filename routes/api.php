@@ -44,6 +44,7 @@ Route::prefix('room-types')->group(function(){
     Route::get('',[RoomTypeController::class,'index'])->name('room-types.index');
     Route::post('',[RoomTypeController::class,'create'])->name('room-types.create');
     Route::patch('/{id}',[RoomTypeController::class,'update'])->name('room-types.update');
+    Route::get('/{id}',[RoomTypeController::class,'getRoomType'])->name('room-types.get');
 });
 
 //Amenity
@@ -54,7 +55,6 @@ Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])-
     Route::delete('/{id}',[AmenityController::class,'delete'])->name('amenities.delete');
 
 });
-
 
 //Feature
 Route::get('features', [FeatureController::class, 'index'])->name('features.index');

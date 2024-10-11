@@ -18,9 +18,13 @@ class RoomTypeController extends Controller
         $this->roomTypeService = $roomTypeService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->roomTypeService->getAllRoomTypes();
+        $filterRoomBooking = $request->get('filterRoomBooking', null);
+        $q = $request->get('q', []);
+        $limit = $request->get('limit', 0);
+        $latest = $request->get('latest', false);
+        return $this->roomTypeService->getAll( $limit, $latest, $q, $filterRoomBooking);
     }
 
     public function update(Request $request, $id)
@@ -31,6 +35,19 @@ class RoomTypeController extends Controller
     public function create(Request $request)
     {
         return $this->roomTypeService->create($request->all());
+    }
+
+    public function getRoomType($identifier, Request $request)
+    {
+        $q = $request->get('q', []);
+        $id = $identifier;
+        $slug = null;
+        if (is_numeric($identifier)) {
+            $id = $identifier;
+        } else {
+            $slug = $identifier;
+        }
+        return $this->roomTypeService->getRoomType($id, $slug, $q);
     }
 
 }
