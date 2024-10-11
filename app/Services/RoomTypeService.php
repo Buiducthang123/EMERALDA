@@ -1,6 +1,9 @@
 <?php
 namespace App\Services;
 
+use App\Models\Amenity;
+use App\Models\Room;
+use App\Models\RoomType;
 use App\Repositories\RoomTypeRepository;
 
 class RoomTypeService
@@ -9,9 +12,6 @@ class RoomTypeService
     public function __construct( RoomTypeRepository $roomTypeRepo)
     {
         $this->roomTypeRepo = $roomTypeRepo;
-    }
-    public function getAllRoomTypes(){
-        return $this->roomTypeRepo->getAll();
     }
 
     public function updateRoomType($data, $id)
@@ -70,5 +70,39 @@ class RoomTypeService
                 "error" => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function getRoomType($id,$slug, $q = []){
+        $result = $this->roomTypeRepo->getRoomType($id, $slug, $q);
+        return $result;
+    }
+
+    public function getAll($limit = 0, $latest = false, $q = [], $filterRoomBooking = null)
+    {
+        $query = new RoomType();
+
+        if ($latest) {
+            $query = $query->latest();
+        }
+
+        if ($limit > 0) {
+            $query = $query->limit($limit);
+        }
+
+        $data = $query->get();
+
+        if (in_array('rooms', $q)) {
+            foreach ($data as $key => $value) {
+                $data[$key]['rooms'] = Room::where('room_type_id', $value->id)->get();
+            }
+        }
+        if(in_array('amenities', $q)){
+            foreach ($data as $key => $value) {
+                $amenities_ids = $value->amenities;
+                $data[$key]['amenities'] = Amenity::whereIn('id', $amenities_ids)->pluck('name')->toArray();
+            }
+        }
+        $filterRoomBooking = json_decode($filterRoomBooking, true);
+        return $data;
     }
 }

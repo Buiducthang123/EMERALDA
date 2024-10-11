@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'status' => AccountStatus::ACTIVE,
                 'birthday' => $faker->optional()->date,
                 'email_verified_at' => $faker->optional()->dateTime,
-                'password' => Hash::make('password'), // Default password
+                'password' => Hash::make(value: '123456'), // Default password
             ]);
         }
 

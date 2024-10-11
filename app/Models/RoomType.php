@@ -9,7 +9,7 @@ class RoomType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description','slug', 'main_image', 'thumbnails', 'amenities', 'features', 'max_people', 'price', 'area'];
+    protected $fillable = ['name','intro_description','description','slug', 'main_image', 'thumbnails', 'amenities', 'max_people', 'price', 'area'];
 
     protected $appends = ['total_rooms'];
 
@@ -20,7 +20,7 @@ class RoomType extends Model
             'status' => 'integer',
             'thumbnails' => 'array',
             'amenities' => 'array',
-            'features' => 'array',
+            'description' => 'string',
         ];
     }
 

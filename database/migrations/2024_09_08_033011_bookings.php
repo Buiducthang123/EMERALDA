@@ -14,13 +14,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // người dùng
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->index(); // người dùng
             $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade'); // phòng
             $table->date('check_in_date'); // ngày check-in
             $table->date('check_out_date'); // ngày check-out
             $table->enum('status', BookingStatus::getValues())->default(BookingStatus::PENDING); // trạng thái đặt phòng
-            $table->integer('adults'); // số người lớn
-            $table->integer('children')->default(0); // số trẻ em
+            $table->unsignedInteger('max_people'); // số người
+            $table->boolean('deposit_paid')->default(false); // đã thanh toán cọc
             $table->decimal('total_price', 8, 2); // tổng giá
             $table->timestamps();
         });

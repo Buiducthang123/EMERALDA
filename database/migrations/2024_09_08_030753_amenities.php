@@ -16,13 +16,6 @@ return new class extends Migration
             $table->text('description')->nullable(); // mô tả
             $table->timestamps();
         });
-
-        Schema::create('amenity_room', callback: function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade'); // phòng
-            $table->foreignId('amenity_id')->constrained('amenities')->onDelete('cascade'); // tiện nghi
-            $table->timestamps();
-        });
     }
 
     /**
