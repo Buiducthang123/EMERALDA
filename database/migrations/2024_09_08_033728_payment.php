@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('amount', 8, 2); // số tiền
             $table->enum('status', PaymentStatus::getValues())->default(PaymentStatus::PENDING); // trạng thái thanh toán
             $table->string('transaction_id')->nullable(); // mã giao dịch
+            $table->foreignId('voucher_id')->nullable()->constrained('vouchers')->onDelete('set null'); // mã voucher
             $table->timestamps();
         });
     }

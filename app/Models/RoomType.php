@@ -9,7 +9,7 @@ class RoomType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','intro_description','description','slug', 'main_image', 'thumbnails', 'amenities', 'max_people', 'price', 'area'];
+    protected $fillable = ['name', 'intro_description', 'description', 'slug', 'main_image', 'thumbnails', 'amenities', 'max_people', 'price', 'area'];
 
     protected $appends = ['total_rooms'];
 
@@ -43,4 +43,7 @@ class RoomType extends Model
     {
         return $this->rooms()->where('room_type_id', $this->id)->count();
     }
+
+
+
 }

@@ -9,16 +9,16 @@ class UserRepository extends BaseRepository
   {
     return User::class;
   }
-  public function getAll($limit = 0, $latest = false, array $filters = [])
+  public function getAll($limit = 0, $latest = false, $q = [])
 {
     $query = $this->model->query();
 
-    if (isset($filters['role'])) {
-        $query->where('role', $filters['role']);
+    if (isset($q['role'])) {
+        $query->where('role', $q['role']);
     }
 
-    if (isset($filters['status'])) {
-        $query->where('status', $filters['status']);
+    if (isset($q['status'])) {
+        $query->where('status', $q['status']);
     }
 
     if ($latest) {

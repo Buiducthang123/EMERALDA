@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -21,12 +22,12 @@ Route::prefix('users')->middleware(['auth:sanctum',AdminMiddleware::class])->gro
     Route::patch('/update/{id}',[UserController::class,'update'])->name('users.update');
     Route::delete('/delete/{id}',[UserController::class,'delete'])->name('users.delete');
     Route::delete('/soft-delete/{id}',[UserController::class,'softDelete'])->name('users.soft-delete');
-    Route::get('info',[UserController::class,'getUserInfo'])->name('users.info');
 });
 
+Route::get('/user/info',[UserController::class,'getUserInfo'])->name('users.info')->middleware('auth:sanctum');
 //User
 Route::prefix('user')->group(function(){
-    Route::get('/me',[UserController::class,'me'])->name('user.me');
+    Route::get('/me/{id}',[UserController::class,'me'])->name('user.me');
     Route::put('/update-me/{id}',[UserController::class,'updateMe'])->name('user.update-me');
 });
 
@@ -56,14 +57,12 @@ Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])-
 
 });
 
-//Feature
-Route::get('features', [FeatureController::class, 'index'])->name('features.index');
-Route::prefix('/features')->middleware(['auth:sanctum',AdminMiddleware::class])->group(function(){
-    Route::patch('/{id}',[FeatureController::class,'update'])->name('features.update');
-    Route::delete('/{id}',[FeatureController::class,'delete'])->name('features.delete');
-    Route::post('/',[FeatureController::class,'create'])->name('features.create');
-});
-
+//Booking
+Route::get('/bookings/booked-date',[BookingsController::class,'getAllBookedDates'])->name('bookings.booked-date');
 
 //
 Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
+
+//Voucher
+
+Route::get('/vouchers/{slug}',[VoucherController::class,'findVoucher'])->name('vouchers.index');
