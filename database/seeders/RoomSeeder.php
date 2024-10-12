@@ -17,8 +17,6 @@ class RoomSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $feature = Feature::pluck("id")->toArray();
-
         for ($i = 0; $i < 10; $i++) {
             // Create a new room record using Faker data
             Room::create([

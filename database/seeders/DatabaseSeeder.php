@@ -23,8 +23,6 @@ class DatabaseSeeder extends Seeder
             RoomTypeSeeder::class,
             RoomSeeder::class,
             AmenitySeeder::class,
-            FeatureSeeder::class,
-
         ]);
     }
 }
