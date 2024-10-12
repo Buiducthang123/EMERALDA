@@ -37,7 +37,8 @@ class UserService
 
     public function me($id)
     {
-        return $this->userRepo->find($id);
+        $result =  $this->userRepo->find($id);
+        return response()->json($result);
     }
 
     public function updateMe($data, $id)

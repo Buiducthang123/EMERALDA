@@ -20,7 +20,7 @@ class RoomTypeController extends Controller
 
     public function index(Request $request)
     {
-        $filterRoomBooking = $request->get('filterRoomBooking', null);
+        $filterRoomBooking = json_decode($request->get('filterRoomBooking', null), true);
         $q = $request->get('q', []);
         $limit = $request->get('limit', 0);
         $latest = $request->get('latest', false);

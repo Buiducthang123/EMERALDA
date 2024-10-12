@@ -9,4 +9,9 @@ class BookingRepository extends BaseRepository{
     {
         return Booking::class;
     }
+    public function getAllBookedDates()
+    {
+        return Booking::all(['check_in_date', 'check_out_date'])->toArray();
+    }
+
 }
