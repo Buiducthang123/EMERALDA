@@ -14,12 +14,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade'); // đặt phòng
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade'); // đơn hàng
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // người dùng
-            $table->decimal('amount', 8, 2); // số tiền
+            $table->float('amount', 8, 2); // số tiền
             $table->enum('status', PaymentStatus::getValues())->default(PaymentStatus::PENDING); // trạng thái thanh toán
             $table->string('transaction_id')->nullable(); // mã giao dịch
-            $table->foreignId('voucher_id')->nullable()->constrained('vouchers')->onDelete('set null'); // mã voucher
+            $table->date('payment_date')->nullable(); // ngày thanh toán
             $table->timestamps();
         });
     }

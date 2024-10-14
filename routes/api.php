@@ -3,6 +3,8 @@
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingsController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\SendMailController;
@@ -59,6 +61,7 @@ Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])-
 
 //Booking
 Route::get('/bookings/booked-date',[BookingsController::class,'getAllBookedDates'])->name('bookings.booked-date');
+Route::post('/bookings',action: [BookingsController::class,'createBooking'])->name('bookings.create')->middleware('auth:sanctum');
 
 //
 Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
@@ -66,3 +69,10 @@ Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-ma
 //Voucher
 
 Route::get('/vouchers/{slug}',[VoucherController::class,'findVoucher'])->name('vouchers.index');
+
+//Payment VNPAY
+Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn']);
+
+//Order
+
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth:sanctum');
