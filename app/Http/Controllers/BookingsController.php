@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\BookingService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BookingsController extends Controller
@@ -20,5 +21,11 @@ class BookingsController extends Controller
     public function getAllBookedDates()
     {
         return $this->bookingService->getAllBookedDates();
+    }
+
+    public function createBooking(Request $request)
+    {
+        $user_id = Auth::id();
+        return $this->bookingService->createBooking($request->all(), $user_id);
     }
 }

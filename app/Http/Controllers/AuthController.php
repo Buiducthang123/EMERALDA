@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -19,9 +18,34 @@ class AuthController extends Controller
     {
         $this->authService = $authService;
     }
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
-        return $this->authService->register($request->validated());
+        $customMessages = [
+            'name.required' => 'Tên là trường bắt buộc.',
+            'name.string' => 'Tên phải là chuỗi.',
+            'name.max' => 'Tên không được vượt quá 255 ký tự.',
+            'email.required' => 'Email là trường bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'password.required' => 'Mật khẩu là trường bắt buộc.',
+            'password.min' => 'Mật khẩu phải chứa ít nhất 6 ký tự.',
+            'password.confirmed' => 'Mật khẩu không khớp.',
+            'phone_number.required' => 'Số điện thoại là trường bắt buộc.',
+            'phone_number.regex' => 'Số điện thoại không hợp lệ.',
+            'phone_number.unique' => 'Số điện thoại đã tồn tại.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+            'phone_number' => ['required','regex:/^(0[3|5|7|8|9])[0-9]{8}$/','unique:users'],
+        ], $customMessages);
+        if ($validator->fails()) {
+            $firstError = collect($validator->errors()->all())->first();
+            throw new HttpResponseException(response()->json(['message' => [$firstError]], 422));
+        }
+
+        return $this->authService->register($request->all());
     }
 
     public function login(Request $request)

@@ -51,7 +51,6 @@ class AuthService
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Đăng ký thành công',
             'token' => $token,
             'user' => $user,
         ], 200);

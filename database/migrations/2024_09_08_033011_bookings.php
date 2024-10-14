@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\BookingStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->index(); // người dùng
-            $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade'); // phòng
-            $table->date('check_in_date'); // ngày check-in
-            $table->date('check_out_date'); // ngày check-out
-            $table->enum('status', BookingStatus::getValues())->default(BookingStatus::PENDING); // trạng thái đặt phòng
-            $table->unsignedInteger('max_people'); // số người
-            $table->boolean('deposit_paid')->default(false); // đã thanh toán cọc
-            $table->decimal('total_price', 8, 2); // tổng giá
+            $table->foreignId(column: 'user_id')->constrained('users')->onDelete('cascade')->index(); // người dùng
+            $table->json(column: 'customer_info'); // thông tin khách hàng
+            $table->foreignId(column: 'room_id')->constrained('rooms')->onDelete('cascade'); // phòng
+            $table->date(column: 'check_in_date'); // ngày check-in
+            $table->date(column: 'check_out_date'); // ngày check-out
             $table->timestamps();
         });
     }
