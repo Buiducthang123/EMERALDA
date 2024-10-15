@@ -94,10 +94,6 @@ class OrderService
         // Đặt cọc 30% giá trị đơn hàng
 
         try {
-            // Ensure room_ids is an array
-            $data['room_ids'] = json_encode($data['room_ids']);
-            $data['customer_info'] = json_encode($data['customer_info']);
-
             $order = Order::create($data);
 
             // Call payment controller to create payment
