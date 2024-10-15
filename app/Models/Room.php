@@ -42,4 +42,9 @@ class Room extends Model
     {
         return json_decode($value, true);
     }
+
+    function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

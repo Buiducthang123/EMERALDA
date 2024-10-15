@@ -66,4 +66,10 @@ class BookingRepository extends BaseRepository
             return response()->json(['error' => 'Có lỗi xảy ra, vui lòng thử lại sau'], 500);
         }
     }
+
+    public function getBookingByUser($user_id)
+    {
+
+        return Booking::where('user_id', $user_id)->with(['order','room'])->get();
+    }
 }

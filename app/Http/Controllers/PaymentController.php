@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\Models\Booking;
+use App\Models\Order;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,11 +27,19 @@ class PaymentController extends Controller
         $user_id = $data['user_id'];
 
 
-    $orderInfo = [
-        'order_id' => $order_id,
-        'user_id' => $user_id,
-    ];
+        $orderInfo = [
+            'order_id' => $order_id,
+            'user_id' => $user_id,
+            'check_in_date' => $data['check_in_date'],
+            'check_out_date' => $data['check_out_date'],
+        ];
 
+        Payment::create([
+            'order_id' => $orderInfo['order_id'],
+            'user_id' => $orderInfo['user_id'],
+            'amount' => $amount,
+            'payment_date' => null,
+        ]);
 
         $vnpayConfig = config('services.vnpay');
         $vnp_TmnCode =  $vnpayConfig['tmn_code']; // Mã website tại VNPAY
@@ -90,8 +101,10 @@ class PaymentController extends Controller
 
     public function vnpayReturn(Request $request)
     {
+
         $vnpayConfig = config('services.vnpay');
         $vnp_HashSecret = $vnpayConfig['hash_secret']; // Chuỗi bí mật
+
         $inputData = array();
         foreach ($request->all() as $key => $value) {
             if (substr($key, 0, 4) == "vnp_") {
@@ -121,23 +134,62 @@ class PaymentController extends Controller
                 // Lấy thông tin thanh toán từ cơ sở dữ liệu
                 $paymentDate = Carbon::createFromFormat('YmdHis', $inputData['vnp_PayDate'])->toDateTimeString();
 
-                $orderInfo = json_decode($inputData['vnp_OrderInfo'], true);
+                $order_info = json_decode($inputData['vnp_OrderInfo'], true);
 
-                $payment = Payment::create([
-                    'order_id' => $orderInfo['order_id'],
-                    'user_id' => $orderInfo['user_id'],
-                    'amount' => $inputData['vnp_Amount'] / 100,
-                    'status' => PaymentStatus::DEPOSIT, // đặt cọc
-                    'transaction_id' => $inputData['vnp_TransactionNo'],
-                    'payment_date' => $paymentDate
-                ]);
+                $payment = Payment::where('order_id', $order_info['order_id'])->first();
+
+                // return $payment;
+
 
                 if ($payment) {
-                    return response()->json(['message' => 'Thanh toán thành công'], 200);
-                } else {
-                    // tạo thanh toán thất bại
-                    return response()->json(['message' => 'Tạo hóa đơn thất bại'], 400);
+                    $payment->update([
+                        'status' => PaymentStatus::DEPOSIT,
+                        'transaction_id' =>$inputData['vnp_TransactionNo'],
+                        'payment_date' => $paymentDate
+                    ]);
+
+                    $order = Order::find($payment->order_id);
+                    if ($order) {
+                        $order->prepayment_amount = $payment->amount;
+                        $order->status = OrderStatus::CONFIRMED;
+                        $order->save();
+
+
+                    }
+
+
+
+                    $dataBooking = []  ;
+
+                    foreach (json_decode($order->room_ids) as $key => $value) {
+                        $dataBooking[] = [
+                            'room_id' => $value,
+                            'check_in_date' => $order_info['check_in_date'],
+                            'check_out_date' => $order_info['check_out_date'],
+                            'order_id' => $order->id,
+                            'user_id' => $order->user_id,
+                        ];
+                    }
+
+                    if ($dataBooking) {
+                        foreach ($dataBooking as $bookingData) {
+                            Booking::firstOrCreate(
+                                [
+                                    'room_id' => $bookingData['room_id'],
+                                    'check_in_date' => $bookingData['check_in_date'],
+                                    'check_out_date' => $bookingData['check_out_date'],
+                                    'order_id' => $bookingData['order_id'],
+                                    'user_id' => $bookingData['user_id']
+                                ],
+                                $bookingData
+                            );
+                        }
+                    }
+                    return $dataBooking;
+
                 }
+
+
             } else {
                 // Thanh toán thất bại
                 return response()->json(['message' => 'Thanh toán thất bại'], 400);

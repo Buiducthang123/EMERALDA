@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Booking;
 use App\Repositories\BookingRepository;
 
 class BookingService
@@ -43,4 +44,25 @@ class BookingService
         return $this->bookingRepo->createBooking($customer_info, $room_ids, $check_in_date, $check_out_date, $voucher_code, $user_id);
     }
 
+    public function checkRoomBooked($room_ids, $check_in_date, $check_out_date)
+    {
+        $bookedRooms = Booking::whereIn('room_id', $room_ids)
+        ->with('room') // Assuming you have a relationship defined in the Booking model
+        ->get(['room_id', 'check_in_date', 'check_out_date'])
+        ->toArray();
+        $roomBooked = [];
+        foreach ($bookedRooms as $bookedRoom) {
+            if (($check_in_date >= $bookedRoom['check_in_date'] && $check_in_date <= $bookedRoom['check_out_date']) ||
+                ($check_out_date >= $bookedRoom['check_in_date'] && $check_out_date <= $bookedRoom['check_out_date'])) {
+                $roomBooked[] =$bookedRoom['room'];
+            }
+        }
+
+        return $roomBooked;
+    }
+
+    public function getBookingByUser($user_id)
+    {
+        return $this->bookingRepo->getBookingByUser($user_id);
+    }
 }

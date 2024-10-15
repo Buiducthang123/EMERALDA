@@ -17,10 +17,13 @@ class OrderService
 
     protected $paymentController;
 
-    public function __construct(OrderRepository $orderRepository, PaymentController $paymentController)
+    protected $bookingService;
+
+    public function __construct(OrderRepository $orderRepository, PaymentController $paymentController, BookingService $bookingService)
     {
         $this->orderRepository = $orderRepository;
         $this->paymentController = $paymentController;
+        $this->bookingService = $bookingService;
     }
 
     public function createOrder($data)
@@ -57,6 +60,20 @@ class OrderService
             return response()->json(['message' => 'Phòng không tồn tại'], 400);
         }
 
+        // kiểm tra xem phòng đã được đặt chưa
+        $room_ids = $data['room_ids'];
+        $check_in_date = $data['check_in_date'];
+        $check_out_date = $data['check_out_date'];
+
+        $roomBooked = $this->bookingService->checkRoomBooked($room_ids, $check_in_date, $check_out_date);
+
+        if($roomBooked){
+            return response()->json([
+                'message' => 'Phòng đã được đặt vui lòng chọn phòng khác',
+                'roomBooked' => $roomBooked
+            ], 400);
+        }
+
         $total_price = $rooms->sum(function ($room) {
             return $room->roomType->price;
         });
@@ -78,7 +95,7 @@ class OrderService
 
         try {
             // Ensure room_ids is an array
-             $data['room_ids'] = json_encode($data['room_ids']);
+            $data['room_ids'] = json_encode($data['room_ids']);
             $data['customer_info'] = json_encode($data['customer_info']);
 
             $order = Order::create($data);
@@ -90,7 +107,9 @@ class OrderService
                     'amount' => $data['payable_amount'] * 0.3,
                     'order_id' => $order->id,
                     'ip' => $data['ip'],
-                    'user_id' => $data['user_id']
+                    'user_id' => $data['user_id'],
+                    'check_in_date' => $data['check_in_date'],
+                    'check_out_date' => $data['check_out_date'],
                 ];
 
                $url =  $this->paymentController->createPayment($paymentData);
@@ -103,8 +122,11 @@ class OrderService
             Log::error('Error creating order', ['exception' => $e]);
             return response()->json(['error' => 'Đã xảy ra lỗi khi tạo đơn hàng'], 500);
         }
+    }
 
-
+    public function getMyOrders($user_id)
+    {
+        return $this->orderRepository->getMyOrders($user_id);
     }
 
 }

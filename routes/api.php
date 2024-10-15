@@ -62,7 +62,7 @@ Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])-
 //Booking
 Route::get('/bookings/booked-date',[BookingsController::class,'getAllBookedDates'])->name('bookings.booked-date');
 Route::post('/bookings',action: [BookingsController::class,'createBooking'])->name('bookings.create')->middleware('auth:sanctum');
-
+Route::get('bookings/me',[BookingsController::class,'getBookingByUser'])->name('bookings.me')->middleware('auth:sanctum');
 //
 Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
 
@@ -74,5 +74,5 @@ Route::get('/vouchers/{slug}',[VoucherController::class,'findVoucher'])->name('v
 Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn']);
 
 //Order
-
+Route::get('/orders/my-orders', [OrderController::class, 'myOrders'])->name('orders.my-orders')->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth:sanctum');

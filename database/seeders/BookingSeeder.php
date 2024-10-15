@@ -21,22 +21,7 @@ class BookingSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         foreach (range(1, 2) as $index) {
-            $check_in_date = $faker->dateTimeBetween('-1 month', '+1 month');
-            $check_out_date = (clone $check_in_date)->modify('+' . rand(1, 14) . ' days');
 
-            Booking::create([
-                'user_id' => $faker->randomElement($user_ids),
-                'room_id' => $faker->randomElement($room_ids),
-                'customer_info' => json_encode([
-                    'name' => $faker->name,
-                    'email' => $faker->email,
-                    'phone' => $faker->phoneNumber,
-                    'address' => $faker->address,
-                    'birthday' => $faker->date('Y-m-d'),
-                ]),
-                'check_in_date' => $check_in_date,
-                'check_out_date' => $check_out_date,
-            ]);
         }
     }
 }
