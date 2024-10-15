@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -65,4 +65,15 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function myOrders()
+    {
+        $user_id = Auth::id();
+        if ($user_id == null) {
+            return response()->json(['error' => 'Bạn cần đăng nhập để thực hiện chức năng này'], 401);
+        }
+
+        return $this->orderService->getMyOrders($user_id);
+    }
+
 }

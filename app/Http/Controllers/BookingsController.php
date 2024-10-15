@@ -28,4 +28,13 @@ class BookingsController extends Controller
         $user_id = Auth::id();
         return $this->bookingService->createBooking($request->all(), $user_id);
     }
+
+    public function getBookingByUser()
+    {
+        $user_id = Auth::id();
+        if ($user_id == null) {
+            return response()->json(['error' => 'Bạn cần đăng nhập để thực hiện chức năng này'], 401);
+        }
+        return $this->bookingService->getBookingByUser($user_id);
+    }
 }

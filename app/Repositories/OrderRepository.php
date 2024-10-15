@@ -15,5 +15,12 @@ class OrderRepository extends BaseRepository{
         return Order::class;
     }
 
+    public function getMyOrders($user_id)
+    {
+        return $this->model->where('user_id', $user_id)
+            ->orderBy('created_at', 'desc')
+            ->with('payment') // Sử dụng 'with' để tải mối quan hệ
+            ->get();
+    }
 
 }
