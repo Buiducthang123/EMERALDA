@@ -7,6 +7,7 @@ use App\Enums\PaymentStatus;
 use App\Models\Booking;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,6 @@ class PaymentController extends Controller
     {
         $order_id = $data['order_id'];
         $ip = $data['ip'];
-
         $amount =  $data['amount'];
 
         if($order_id == null) {
@@ -30,6 +30,7 @@ class PaymentController extends Controller
         $orderInfo = [
             'order_id' => $order_id,
             'user_id' => $user_id,
+            'discount' => $data['discount'] ?? 0,
             'check_in_date' => $data['check_in_date'],
             'check_out_date' => $data['check_out_date'],
         ];
@@ -111,6 +112,7 @@ class PaymentController extends Controller
                 $inputData[$key] = $value;
             }
         }
+
         $vnp_SecureHash = $inputData['vnp_SecureHash'];
         unset($inputData['vnp_SecureHashType']);
         unset($inputData['vnp_SecureHash']);
@@ -153,19 +155,24 @@ class PaymentController extends Controller
                         $order->prepayment_amount = $payment->amount;
                         $order->status = OrderStatus::CONFIRMED;
                         $order->save();
-
-
                     }
-
-
-
+                    // return $order->voucher_code;
+                    $discount = $order_info['discount'];
                     $dataBooking = []  ;
 
-                    foreach (json_decode($order->room_ids) as $key => $value) {
+                    foreach ($order->room_ids as $key => $value) {
+                        $total_price = Room::find($value)->roomType->price;
+
+                        $total_price = $total_price - ($total_price * $discount / 100);
+
+                        $paid_amount = $total_price * 0.3;
+
                         $dataBooking[] = [
                             'room_id' => $value,
                             'check_in_date' => $order_info['check_in_date'],
                             'check_out_date' => $order_info['check_out_date'],
+                            'total_price' => $total_price,
+                            'paid_amount' => $paid_amount,
                             'order_id' => $order->id,
                             'user_id' => $order->user_id,
                         ];
