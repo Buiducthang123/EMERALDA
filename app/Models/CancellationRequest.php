@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\CancellationRequestStatus;
+use Ramsey\Uuid\Type\Integer;
 
 class CancellationRequest extends Model
 {
@@ -13,12 +14,13 @@ class CancellationRequest extends Model
         'order_id',
         'room_id',
         'user_id',
-        'reason',
+        'bank_account_info',
+        'refund_amount',
         'status',
     ];
 
     protected $casts = [
-        'status' => CancellationRequestStatus::class,
+        'bank_account_info' => 'array',
     ];
 
     public function order()
@@ -34,5 +36,10 @@ class CancellationRequest extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getStatusAttribute($value)
+    {
+        return (Integer)$value;
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AmenityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingsController;
+use App\Http\Controllers\CancellationRequestController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoomController;
@@ -76,3 +77,10 @@ Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn']);
 //Order
 Route::get('/orders/my-orders', [OrderController::class, 'myOrders'])->name('orders.my-orders')->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth:sanctum');
+
+
+//cancel request ( yêu cầu hủy phòng)
+
+Route::post('/cancel-request',[CancellationRequestController::class,'store'])->name('cancel-request.store')->middleware('auth:sanctum');
+Route::get("/cancel-request/me",[CancellationRequestController::class,'myCancelRequest'])->name('cancel-request.me')->middleware('auth:sanctum');
+Route::delete("/cancel-request/{id}",[CancellationRequestController::class,'delete'])->name('cancel-request.delete')->middleware('auth:sanctum');

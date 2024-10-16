@@ -9,7 +9,7 @@ class CancellationRequestStatus
     const CANCELLED = 3; // Đã hủy
     const COMPLETED = 4; // Đã hoàn thành
 
-    public function getValues()
+     public static function getValues()
     {
         return [
             self::PENDING,

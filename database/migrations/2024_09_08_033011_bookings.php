@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId(column: 'room_id')->constrained('rooms')->onDelete('cascade'); // phòng
             $table->date(column: 'check_in_date'); // ngày check-in
             $table->date(column: 'check_out_date'); // ngày check-out
+            $table->float(column: 'total_price'); // tổng giá
+            $table->float(column: 'paid_amount')->default(0); // số tiền đã thanh toán
             $table->enum('status', BookingStatus::getValues())->default(BookingStatus::NOT_CHECKED_IN); // trạng thái
             $table->timestamps();
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CancellationRequestStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +17,10 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->foreignId('room_id')->constrained('rooms')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->text('reason')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            //SỐ TIỀN HOÀN LẠI
+            $table->float(column: 'refund_amount');
+            $table->json('bank_account_info');
+            $table->enum('status', CancellationRequestStatus::getValues())->default(CancellationRequestStatus::PENDING);
             $table->timestamps();
         });
     }

@@ -47,4 +47,9 @@ class Room extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    function cancellationRequests()
+    {
+        return $this->hasMany(CancellationRequest::class);
+    }
 }

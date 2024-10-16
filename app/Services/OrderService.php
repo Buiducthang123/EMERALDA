@@ -103,6 +103,7 @@ class OrderService
                     'amount' => $data['payable_amount'] * 0.3,
                     'order_id' => $order->id,
                     'ip' => $data['ip'],
+                    'discount' => $discount,
                     'user_id' => $data['user_id'],
                     'check_in_date' => $data['check_in_date'],
                     'check_out_date' => $data['check_out_date'],
