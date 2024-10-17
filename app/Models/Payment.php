@@ -27,4 +27,14 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getStatusAttribute($value)
+    {
+        return (integer) $value;
+    }
 }

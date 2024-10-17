@@ -65,4 +65,11 @@ class BookingService
     {
         return $this->bookingRepo->getBookingByUser($user_id);
     }
+
+    public function getAll($data){
+        $limit = $data['limit'] ?? 0;
+        $latest = $data['latest'] ?? false;
+        $p = $data['p'] ?? [];
+        return $this->bookingRepo->getAll($limit, $latest, $p);
+    }
 }

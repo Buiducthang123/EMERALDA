@@ -72,4 +72,27 @@ class BookingRepository extends BaseRepository
 
         return Booking::where('user_id', $user_id)->with(['order','room'])->get();
     }
+
+    public function getAll($limit = 0, $latest = false, $p = [])
+    {
+        $query = Booking::query();
+
+        if (!empty($p) && count($p) > 0) {
+            // Validate that each element in $p is a string
+            $validRelationships = array_filter($p, 'is_string');
+            if (count($validRelationships) > 0) {
+                $query->with($validRelationships);
+            }
+        }
+
+        if ($latest) {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($limit > 0) {
+            return $query->limit($limit)->get();
+        }
+
+        return $query->get();
+    }
 }
