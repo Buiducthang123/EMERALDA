@@ -61,6 +61,7 @@ Route::prefix('amenities')->middleware(['auth:sanctum',AdminMiddleware::class])-
 });
 
 //Booking
+Route::get('/bookings',[BookingsController::class,'getAll'])->name('bookings.all')->middleware('auth:sanctum');
 Route::get('/bookings/booked-date',[BookingsController::class,'getAllBookedDates'])->name('bookings.booked-date');
 Route::post('/bookings',action: [BookingsController::class,'createBooking'])->name('bookings.create')->middleware('auth:sanctum');
 Route::get('bookings/me',[BookingsController::class,'getBookingByUser'])->name('bookings.me')->middleware('auth:sanctum');
@@ -72,6 +73,7 @@ Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-ma
 Route::get('/vouchers/{slug}',[VoucherController::class,'findVoucher'])->name('vouchers.index');
 
 //Payment VNPAY
+Route::get('payment',[PaymentController::class,'getAllPayment'])->name('payment.all')->middleware(['auth:sanctum',AdminMiddleware::class]);
 Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn']);
 
 //Order

@@ -25,9 +25,9 @@ class UserRepository extends BaseRepository
         $query->orderBy('created_at', 'desc');
     }
 
-    if ($limit > 0) {
-        $query->limit($limit);
-    }
+    // if ($limit > 0) {
+    //     $query->limit($limit);
+    // }
 
     return $query->get();
 }

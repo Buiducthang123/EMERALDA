@@ -8,11 +8,19 @@ use App\Models\Booking;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Room;
+use App\Services\PaymentService;
 use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    protected $paymentService;
+
+    public function __construct(PaymentService $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
     //
     public function createPayment($data)
     {
@@ -205,5 +213,10 @@ class PaymentController extends Controller
             // Sai chữ ký
             return response()->json(['message' => 'Sai chũ kí'], 400);
         }
+    }
+
+    public function getAllPayment(Request $request)
+    {
+        return $this->paymentService->getAllPayment($request->all());
     }
 }

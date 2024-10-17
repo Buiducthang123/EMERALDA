@@ -35,6 +35,11 @@ class Booking extends Model
         ];
     }
 
+    public function getStatusAttribute($value)
+    {
+        return (integer)$value;
+    }
+
     public function room()
     {
         return $this->belongsTo(Room::class);

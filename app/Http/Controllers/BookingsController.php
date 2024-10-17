@@ -37,4 +37,9 @@ class BookingsController extends Controller
         }
         return $this->bookingService->getBookingByUser($user_id);
     }
+
+    public function getAll(Request $request){
+        return $this->bookingService->getAll($request->all());
+    }
+
 }

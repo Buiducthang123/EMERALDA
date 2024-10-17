@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $filters = [
             'role' => $request->query('role'),
-            'status' => $request->query('status'),
+            // 'status' => $request->query('status'),
         ];
         return $this->userService->getAll($filters);
     }
