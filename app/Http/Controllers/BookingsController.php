@@ -42,4 +42,12 @@ class BookingsController extends Controller
         return $this->bookingService->getAll($request->all());
     }
 
+    public function updateStatus(Request $request, $id){
+        $status = $request->status;
+        if($status == null){
+            return response()->json(['message' => 'Vui lòng nhập trạng thái'], 400);
+        }
+        return $this->bookingService->updateStatus($id, $status);
+    }
+
 }

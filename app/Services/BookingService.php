@@ -72,4 +72,13 @@ class BookingService
         $p = $data['p'] ?? [];
         return $this->bookingRepo->getAll($limit, $latest, $p);
     }
+
+    public function updateStatus($booking_id, $status)
+    {
+        try {
+            $this->bookingRepo->updateStatus($booking_id, $status);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Có lỗi xảy ra, vui lòng thử lại sau'], 500);
+        }
+    }
 }
