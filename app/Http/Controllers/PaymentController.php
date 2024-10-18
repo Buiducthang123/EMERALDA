@@ -105,7 +105,7 @@ class PaymentController extends Controller
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
 
-        return response()->json([$vnp_Url]);
+        return response()->json($vnp_Url);
     }
 
     public function vnpayReturn(Request $request)

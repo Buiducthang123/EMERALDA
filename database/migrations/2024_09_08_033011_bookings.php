@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date(column: 'check_out_date'); // ngày check-out
             $table->float(column: 'total_price'); // tổng giá
             $table->float(column: 'paid_amount')->default(0); // số tiền đã thanh toán
-            $table->enum('status', BookingStatus::getValues())->default(BookingStatus::NOT_CHECKED_IN); // trạng thái
+            $table->enum('status', BookingStatus::getValues())->default(BookingStatus::PENDING); // trạng thái
             $table->timestamps();
         });
     }

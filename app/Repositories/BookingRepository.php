@@ -95,4 +95,16 @@ class BookingRepository extends BaseRepository
 
         return $query->get();
     }
+
+    public function updateStatus($booking_id, $status)
+    {
+        $booking = Booking::find($booking_id);
+        if ($booking) {
+            $booking->status = $status;
+            $booking->save();
+            return response()->json(['success' => 'Cập nhật thành công'], 200);
+        }
+
+        return response()->json(['error' => 'Không tìm thấy'], 404);
+    }
 }

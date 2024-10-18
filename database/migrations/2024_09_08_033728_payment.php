@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade'); // đơn hàng
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // người dùng
             $table->float('amount', 8, 2); // số tiền
-            $table->enum('status', PaymentStatus::getValues())->default(PaymentStatus::PENDING); // trạng thái thanh toán
+            $table->enum('status', PaymentStatus::getValues())->default(value: PaymentStatus::UNPAID); // trạng thái thanh toán
             $table->string('transaction_id')->nullable(); // mã giao dịch
             $table->date('payment_date')->nullable(); // ngày thanh toán
             $table->timestamps();

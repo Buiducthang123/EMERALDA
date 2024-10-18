@@ -67,7 +67,7 @@ Route::post('/bookings',action: [BookingsController::class,'createBooking'])->na
 Route::get('bookings/me',[BookingsController::class,'getBookingByUser'])->name('bookings.me')->middleware('auth:sanctum');
 //
 Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
-
+Route::post(('bookings/update-status/{id}'),[BookingsController::class,'updateStatus'])->name('bookings.update-status')->middleware(['auth:sanctum','can:updateStatus,App\Models\Booking']);
 //Voucher
 
 Route::get('/vouchers/{slug}',[VoucherController::class,'findVoucher'])->name('vouchers.index');
