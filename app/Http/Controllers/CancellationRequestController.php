@@ -33,4 +33,14 @@ class CancellationRequestController extends Controller
         return $this->cancellationRequestService->delete($id);
     }
 
+    public function getAll(Request $request)
+    {
+        return $this->cancellationRequestService->getAll($request->all());
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        return $this->cancellationRequestService->updateStatus($request->all(), $id);
+    }
+
 }

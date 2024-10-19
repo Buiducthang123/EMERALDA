@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\CancellationRequestStatus;
+use App\Models\Booking;
 use App\Models\CancellationRequest;
 use App\Repositories\CancellationRequestRepository;
 use Illuminate\Support\Facades\Auth;
@@ -82,6 +84,33 @@ class CancellationRequestService
         $result = $this->cancellationRequestRepository->delete($id);
         if($result){
             return response()->json(['message' => 'Xóa thành công'], 200);
+        }else{
+            return response()->json(['message' => 'Có lỗi xảy ra'], 400);
+        }
+    }
+
+    public function getAll($data){
+        $limit = $data['limit'] ?? 0;
+        $latest = $data['latest'] ?? false;
+        $p = $data['p'] ?? [];
+        $filter = $data['filter'] ?? [];
+        return $this->cancellationRequestRepository->getAll($limit, $p, $filter);
+    }
+
+    public function updateStatus($data, $id){
+        $status = $data['status'];
+        $result = $this->cancellationRequestRepository->update($id, ['status' => $status]);
+        if($result){
+            if($status == CancellationRequestStatus::COMPLETED){
+                $order_id = $result->order_id;
+                $user_id = $result->user_id;
+                $room_id = $result->room_id;
+                $booking = Booking::where('order_id', $order_id)->where('user_id', $user_id)->where('room_id', $room_id)->first();
+               if($booking){
+                   $booking->delete();
+               }
+            }
+            return response()->json(['message' => 'Cập nhật thành công'], 200);
         }else{
             return response()->json(['message' => 'Có lỗi xảy ra'], 400);
         }

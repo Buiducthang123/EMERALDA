@@ -8,7 +8,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
-use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AdminMiddleware;
@@ -65,8 +64,6 @@ Route::get('/bookings',[BookingsController::class,'getAll'])->name('bookings.all
 Route::get('/bookings/booked-date',[BookingsController::class,'getAllBookedDates'])->name('bookings.booked-date');
 Route::post('/bookings',action: [BookingsController::class,'createBooking'])->name('bookings.create')->middleware('auth:sanctum');
 Route::get('bookings/me',[BookingsController::class,'getBookingByUser'])->name('bookings.me')->middleware('auth:sanctum');
-//
-Route::get('/send-mail', [SendMailController::class, 'sendMail'])->name('send-mail');
 Route::post(('bookings/update-status/{id}'),[BookingsController::class,'updateStatus'])->name('bookings.update-status')->middleware(['auth:sanctum','can:updateStatus,App\Models\Booking']);
 //Voucher
 
@@ -86,3 +83,5 @@ Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')-
 Route::post('/cancel-request',[CancellationRequestController::class,'store'])->name('cancel-request.store')->middleware('auth:sanctum');
 Route::get("/cancel-request/me",[CancellationRequestController::class,'myCancelRequest'])->name('cancel-request.me')->middleware('auth:sanctum');
 Route::delete("/cancel-request/{id}",[CancellationRequestController::class,'delete'])->name('cancel-request.delete')->middleware('auth:sanctum');
+Route::get("/cancel-request",[CancellationRequestController::class,'getAll'])->name('cancel-request.all')->middleware(['auth:sanctum']);
+Route::post("/cancel-request/update-status/{id}",[CancellationRequestController::class,'updateStatus'])->name('cancel-request.update-status')->middleware(['auth:sanctum']);

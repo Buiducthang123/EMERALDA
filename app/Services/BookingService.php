@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Mail\SendApiNotificationEmail;
 use App\Models\Booking;
 use App\Repositories\BookingRepository;
+use Illuminate\Support\Facades\Mail;
 
 class BookingService
 {
@@ -76,7 +78,11 @@ class BookingService
     public function updateStatus($booking_id, $status)
     {
         try {
-            $this->bookingRepo->updateStatus($booking_id, $status);
+           $result = $this->bookingRepo->updateStatus($booking_id, $status);
+           $mailTo = $result->user->email;
+           $data = $result->toArray();
+           Mail::to($mailTo)->queue(new SendApiNotificationEmail($data));
+
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Có lỗi xảy ra, vui lòng thử lại sau'], 500);
         }

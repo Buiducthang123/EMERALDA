@@ -3,11 +3,11 @@ namespace App\Enums;
 
 class CancellationRequestStatus
 {
-    const PENDING = 0; // Chờ
-    const WAITING_COMPLETE = 1; // Chờ hoàn thành
-    const REJECTED = 2; // Từ chối
-    const CANCELLED = 3; // Đã hủy
-    const COMPLETED = 4; // Đã hoàn thành
+    const PENDING = 1; // Chờ
+    const WAITING_COMPLETE = 2; // Chờ hoàn thành
+    const REJECTED = 3; // Từ chối
+    const CANCELLED = 4; // Đã hủy
+    const COMPLETED = 5; // Đã hoàn thành
 
      public static function getValues()
     {

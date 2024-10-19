@@ -22,7 +22,6 @@ return new class extends Migration
             $table->float('payable_amount', 8, 2); // số phải trả
             $table->float('prepayment_amount', 8, 2)->default(0); // số tiền đã thanh toán
             $table->enum('status', OrderStatus::getValues())->default(OrderStatus::PENDING); // trạng thái
-            $table->boolean('refunded_status')->default(0); // trạng thái hoàn tiền
             $table->timestamps();
         });
     }

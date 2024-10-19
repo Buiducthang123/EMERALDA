@@ -17,9 +17,11 @@ class SendApiNotificationEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    protected $data;
+    public function __construct( $data)
     {
         //
+        $this->data = $data;
     }
 
     /**
@@ -28,11 +30,11 @@ class SendApiNotificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(env('MAIL_FROM_ADDRESS', 'default@example.com'), 'Test Sender'),
+            from: new Address(env('MAIL_FROM_ADDRESS', 'default@example.com'), 'Emeralda Tam Cốc Resort'),
             replyTo: [
-                new Address(address: 'yencrush872@gmail.com', name: 'yen crush'),
+                new Address(address: 'Emeralda@gmail.com', name: 'Emeralda Tam Cốc Resort'),
             ],
-            subject: 'Send Api Notification Email',
+            subject: $this->data['subject'] ?? 'Thông báo từ Emeralda Tam Cốc Resort',
         );
     }
 
@@ -41,8 +43,10 @@ class SendApiNotificationEmail extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
             view:"emails.notification",
+            with: ['data' => $this->data]
         );
     }
 
