@@ -102,7 +102,7 @@ class BookingRepository extends BaseRepository
         if ($booking) {
             $booking->status = $status;
             $booking->save();
-            return response()->json(['success' => 'Cập nhật thành công'], 200);
+            return $booking->load('user');
         }
 
         return response()->json(['error' => 'Không tìm thấy'], 404);

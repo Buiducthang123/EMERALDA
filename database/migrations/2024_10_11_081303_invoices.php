@@ -17,6 +17,8 @@ return new class extends Migration
 
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade'); // liên kết với bảng orders
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // liên kết với bảng users
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade'); // liên kết với bảng bookings
             $table->decimal('amount', 8, 2); // số tiền
             $table->date('invoice_date'); // ngày lập hóa đơn

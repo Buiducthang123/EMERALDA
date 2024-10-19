@@ -2,8 +2,8 @@
 namespace App\Enums;
 
 class InvoiceType{
-    const DEPOSIT = 'deposit';
-    const FULL_PAYMENT = 'full_payment';
+    const DEPOSIT = 1; // đặt cọc
+    const FULL_PAYMENT = 2; // thanh toán đủ
 
     public static function getValues()
     {
