@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('room_type_reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // người dùng
+            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade'); // đặt phòng
             $table->foreignId('room_type_id')->constrained('room_types')->onDelete('cascade'); // loại phòng
             $table->integer('rating')->unsigned()->default(0)->nullable()->between(1, 5); // rating
             $table->text('comment')->nullable(); // nội dung đánh giá

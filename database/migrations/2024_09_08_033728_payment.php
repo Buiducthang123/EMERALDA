@@ -19,7 +19,8 @@ return new class extends Migration
             $table->float('amount', 8, 2); // số tiền
             $table->enum('status', PaymentStatus::getValues())->default(value: PaymentStatus::UNPAID); // trạng thái thanh toán
             $table->string('transaction_id')->nullable(); // mã giao dịch
-            $table->date('payment_date')->nullable(); // ngày thanh toán
+            $table->unsignedBigInteger('payment_date')->nullable(); // ngày thanh toán
+            $table->unsignedBigInteger('id_ref')->nullable(); // id hoàn tiền
             $table->timestamps();
         });
     }

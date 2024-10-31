@@ -70,7 +70,13 @@ class BookingRepository extends BaseRepository
     public function getBookingByUser($user_id)
     {
 
-        return Booking::where('user_id', $user_id)->with(['order','room'])->get();
+        $bookings = Booking::where('user_id', $user_id)->with(['order', 'room','room_type_reviews'])->get();
+
+        foreach ($bookings as $booking) {
+            $booking->reviewed = $booking->room_type_reviews->count() > 0;
+        }
+
+        return $bookings;
     }
 
     public function getAll($limit = 0, $latest = false, $p = [])

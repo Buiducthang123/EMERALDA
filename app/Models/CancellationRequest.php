@@ -14,13 +14,12 @@ class CancellationRequest extends Model
         'order_id',
         'room_id',
         'user_id',
-        'bank_account_info',
         'refund_amount',
         'status',
     ];
 
     protected $casts = [
-        'bank_account_info' => 'array',
+
     ];
 
     public function order()

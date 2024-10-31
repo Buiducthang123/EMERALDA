@@ -29,19 +29,16 @@ class RoomService
         try {
             $room = $this->roomRepo->find($id);
             if ($room) {
-                if ($room->status != RoomStatus::BOOKED) {
-                    $room->amenities()->detach();
-                    $room->features()->detach();
-                    $room->delete();
-                    DB::commit();
-                    return response()->json(['message' => 'Xoá thành công'], 200);
-                } else if ($room->status == RoomStatus::AVAILABLE) {
+                if ($room->status == RoomStatus::AVAILABLE) {
                     DB::rollBack();
-                    return response()->json(['message'=> 'Không thể xoá phòng này do đang được sử dụng'], status: 500);
+                    return response()->json(['message'=> 'Không thể xoá phòng này do đang được sử dụng'], 500);
                 }
+                $room->delete();
+                DB::commit();
+                return response()->json(['message' => 'Xoá thành công'], 200);
             }
             DB::rollBack();
-            return response()->json(['message'=> 'Có lỗi xảy ra'], 404);
+            return response()->json(['message'=> 'Phòng không tồn tại'], 404);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message'=> 'Có lỗi xảy ra', 'error' => $e->getMessage()], 500);

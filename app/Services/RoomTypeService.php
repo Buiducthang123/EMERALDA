@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BookingStatus;
 use App\Enums\RoomStatus;
 use App\Models\Amenity;
 use App\Models\Booking;
@@ -42,7 +43,20 @@ class RoomTypeService
     public function delete($id)
     {
         try {
+            $roomType = RoomType::find($id);
+            if (!$roomType) {
+                return response()->json([
+                    "message" => "Không tìm thấy loại phòng",
+                ], 404);
+            }
+            $roomOfRoomType = Room::where('room_type_id', $id)->get();
+            if ($roomOfRoomType->count() > 0) {
+                return response()->json([
+                    "message" => "Không thể xóa loại phòng này vì còn phòng thuộc loại phòng này",
+                ], 400);
+            }
             $result = $this->roomTypeRepo->delete($id);
+
             if ($result) {
                 return response()->json([
                     "message" => "Xóa thành công",
@@ -84,7 +98,6 @@ class RoomTypeService
         $result = $this->roomTypeRepo->getRoomType($id, $slug, $q);
         return $result;
     }
-
     public function getAll($limit = 0, $latest = false, $q = [], $filterRoomBooking = null)
     {
         $query = new RoomType();
@@ -130,6 +143,7 @@ class RoomTypeService
                                                 ->where('check_out_date', '>=', $endDate);
                                         });
                                 })
+                                ->whereNotIn('status', [BookingStatus::CHECKED_OUT, BookingStatus::CANCELLED])
                                 ->exists();
 
                             $room->canBook = !$hasBooking;

@@ -14,15 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         //Hóa đơn
-
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade'); // liên kết với bảng orders
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // liên kết với bảng users
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade'); // liên kết với bảng bookings
-            $table->decimal('amount', 8, 2); // số tiền
-            $table->date('invoice_date'); // ngày lập hóa đơn
-            $table->enum('type', InvoiceType::getValues())->default(InvoiceType::DEPOSIT); // loại hóa đơn
+            $table->json('services')->nullable(); // dịch vụ
+            $table->decimal('total_amount', 8, 2); // tổng số tiền
+            $table->enum('type',  InvoiceType::getValues()); // loại hóa đơn
             $table->enum('status', InvoiceStatus::getValues())->default(InvoiceStatus::UNPAID); // trạng thái hóa đơn
             $table->timestamps();
         });

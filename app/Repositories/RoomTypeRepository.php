@@ -34,6 +34,10 @@ class RoomTypeRepository extends BaseRepository
             if (in_array('rooms', $q)) {
                 $data['rooms'] = Room::where('room_type_id', $data->id)->get();
             }
+            if (in_array('roomTypeReviews', $q)) {
+                // $data['roomTypeReviews'] = $result->roomTypeReviews;
+            $data['roomTypeReviews'] = $result->roomTypeReviews()->latest()->limit(10)->with('user:id,name,avatar')->get();
+            }
             return $data;
         }
     }
