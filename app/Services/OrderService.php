@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Room;
 use App\Models\Voucher;
 use App\Repositories\OrderRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -82,6 +83,10 @@ class OrderService
         if (!empty($data['voucher_code'])) {
             $voucher = Voucher::where('code', $data['voucher_code'])->first();
             if ($voucher) {
+                if(!Carbon::now()->between($voucher->valid_from, $voucher->valid_until))
+                {
+                    return response()->json(['message' => 'Voucher đã hết hạn'], 400);
+                }
                 $discount = $voucher->discount_amount;
             } else {
                 return response()->json(['message' => 'Voucher không hợp lệ'], 400);

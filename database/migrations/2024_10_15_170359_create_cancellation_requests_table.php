@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             //SỐ TIỀN HOÀN LẠI
             $table->float(column: 'refund_amount');
-            $table->json('bank_account_info');
             $table->enum('status', CancellationRequestStatus::getValues())->default(CancellationRequestStatus::PENDING);
             $table->timestamps();
         });

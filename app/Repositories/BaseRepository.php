@@ -41,6 +41,12 @@ abstract class BaseRepository implements RepositoryInterface
             $query = $query->limit($limit);
         }
 
+        if($q){
+            foreach ($q as $key => $value) {
+                $query = $query->with($value);
+            }
+        }
+
         $data = $query->get();
 
         return $data;

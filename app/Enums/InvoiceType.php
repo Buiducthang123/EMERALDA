@@ -2,14 +2,14 @@
 namespace App\Enums;
 
 class InvoiceType{
-    const DEPOSIT = 1; // đặt cọc
-    const FULL_PAYMENT = 2; // thanh toán đủ
+    const PAYMENT = 1; // thanh toán
+    const REFUND = 2; // hoàn tiền
 
     public static function getValues()
     {
         return [
-            self::DEPOSIT,
-            self::FULL_PAYMENT,
+            self::PAYMENT,
+            self::REFUND,
         ];
     }
 }

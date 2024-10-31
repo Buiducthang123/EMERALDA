@@ -23,4 +23,31 @@ class VoucherController extends Controller
     {
         return $this->voucherService->findVoucher($voucherCode);
     }
+
+    public function getAll(Request $request)
+    {
+        return $this->voucherService->getAll($request->all());
+    }
+
+    public function delete($id)
+    {
+        return $this->voucherService->delete($id);
+    }
+
+    public function create(Request $request)
+    {
+        $data = $request->all();
+        return $this->voucherService->create($data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+        return $this->voucherService->update($data, $id);
+    }
+
+    public function getVoucherOngoing()
+    {
+        return $this->voucherService->getVoucherOngoing();
+    }
 }

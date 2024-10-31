@@ -21,16 +21,12 @@ class CancellationRequestService
     public function createCancellationRequest($data)
     {
         $dataRequest = $data['dataRequest'];
-        $bankInfo = $data['bankInfo'];
-
         // Kiểm tra nếu tất cả các yêu cầu đều có cùng user_id với user hiện tại
         foreach ($dataRequest as $value) {
             if ($value['user_id'] != Auth::id()) {
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
         }
-
-        // return $dataRequest;
 
         DB::beginTransaction(); // Bắt đầu transaction
 
@@ -41,7 +37,6 @@ class CancellationRequestService
                     'user_id' => $value['user_id'],
                     'room_id' => $value['room_id'],
                     'refund_amount' => $value['paid_amount'],
-                    'bank_account_info' => $bankInfo,
                 ];
 
                 // Sử dụng firstOrCreate để tìm hoặc tạo bản ghi mới
@@ -106,9 +101,9 @@ class CancellationRequestService
                 $user_id = $result->user_id;
                 $room_id = $result->room_id;
                 $booking = Booking::where('order_id', $order_id)->where('user_id', $user_id)->where('room_id', $room_id)->first();
-               if($booking){
-                   $booking->delete();
-               }
+            //    if($booking){
+            //        $booking->delete();
+            //    }
             }
             return response()->json(['message' => 'Cập nhật thành công'], 200);
         }else{

@@ -15,8 +15,11 @@ class AmenityService {
         $this->amenityRepository = $amenityRepository;
     }
 
-    public function getAll(){
-        return $this->amenityRepository->getAll();
+    public function getAll($data){
+        $limit = $data['limit'] ?? 0;
+        $latest = $data['latest'] ?? false;
+        $q = $data['q'] ?? [];
+        return $this->amenityRepository->getAll($limit, $latest, $q);
     }
 
     public function update($id, $data){

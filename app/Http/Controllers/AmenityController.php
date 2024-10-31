@@ -16,8 +16,8 @@ class AmenityController extends Controller
         $this->amenityService = $amenityService;
     }
 
-    public function index(){
-        return $this->amenityService->getAll();
+    public function index(Request $request){
+        return $this->amenityService->getAll($request->all());
     }
 
     public function update($id, Request $request){

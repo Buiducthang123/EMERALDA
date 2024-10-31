@@ -55,6 +55,14 @@ class Booking extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
 
+    public function room_type_reviews()
+    {
+        return $this->hasMany(RoomTypeReview::class);
+    }
 
 }

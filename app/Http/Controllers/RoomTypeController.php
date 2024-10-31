@@ -50,4 +50,9 @@ class RoomTypeController extends Controller
         return $this->roomTypeService->getRoomType($id, $slug, $q);
     }
 
+    public function delete($id)
+    {
+        return $this->roomTypeService->delete($id);
+    }
+
 }

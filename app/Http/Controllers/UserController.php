@@ -66,10 +66,12 @@ class UserController extends Controller
         return $this->userService->me($id);
     }
 
-    public function updateMe(Request $request, $id)
+    public function updateMe(Request $request)
     {
         $data = $request->all();
-        return $this->userService->updateMe($data, $id);
+        unset($data['role']);
+        // return Auth::user();
+        return $this->userService->updateMe($data,Auth::user()->id);
     }
 
     public function getUserInfo()
