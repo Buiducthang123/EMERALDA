@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Enums\AccountStatus;
 use App\Repositories\AuthRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,12 @@ class AuthService
         if (!$credential) {
             return response()->json([
                 'message' => 'Mật khẩu không chính xác',
+            ], 401);
+        }
+
+        if($user->status == AccountStatus::BLOCKED) {
+            return response()->json([
+                'message' => 'Tài khoản đã bị khóa',
             ], 401);
         }
 

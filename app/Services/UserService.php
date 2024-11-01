@@ -1,5 +1,7 @@
 <?php
 namespace App\Services;
+
+use App\Enums\AccountStatus;
 use App\Repositories\UserRepository;
 
 class UserService
@@ -17,7 +19,14 @@ class UserService
 
     public function update($id, $data)
     {
-        return $this->userRepo->update($id, $data);
+        $result = $this->userRepo->update($id, $data);
+        if($data['status'] == AccountStatus::BLOCKED){
+            $user = $this->userRepo->find($id);
+            $user->tokens()->delete();
+        }
+        if($result){
+            return response()->json($result);
+        }
     }
 
     public function delete($id)
