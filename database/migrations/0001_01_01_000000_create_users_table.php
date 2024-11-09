@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('role', UserRole::getValues())->default(UserRole::GUEST); // trạng thái đặt phòng
             $table->enum('status', AccountStatus::getValues())->default(AccountStatus::ACTIVE); // trạng thái tài khoản
             $table->string('birthday')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken()->nullable();
             $table->timestamps();
