@@ -17,7 +17,7 @@
         .container {
             max-width: 600px;
             margin: 20px auto;
-            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            background-color: #006197; 
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

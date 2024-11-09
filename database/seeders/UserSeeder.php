@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
                 'role' => UserRole::GUEST,
                 'status' => AccountStatus::ACTIVE,
                 'birthday' => $faker->optional()->date,
-                'email_verified_at' => $faker->optional()->dateTime,
+                // 'email_verified_at' => $faker->optional()->dateTime,
                 'password' => Hash::make(value: '123456'), // Default password
             ]);
         }
