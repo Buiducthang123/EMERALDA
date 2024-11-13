@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RoomStatus;
+use App\Http\Requests\RoomRequest;
 use App\Services\RoomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,7 +39,7 @@ class RoomController extends Controller
     /**
      * Store the newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
         $roomStatus = RoomStatus::getValues();
         $validator = Validator::make($request->all(), [

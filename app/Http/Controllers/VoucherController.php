@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VoucherRequest;
 use App\Services\VoucherService;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class VoucherController extends Controller
         return $this->voucherService->delete($id);
     }
 
-    public function create(Request $request)
+    public function create(VoucherRequest $request)
     {
         $data = $request->all();
         return $this->voucherService->create($data);
