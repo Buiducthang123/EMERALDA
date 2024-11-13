@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         for ($i = 0; $i < 11; $i++) {
             User::create([
                 'name' => $faker->name,
-                'phone_number' => $faker->unique()->phoneNumber,
+                'phone_number' => '085' . $faker->numberBetween(100000, 999999),
                 'email' => $faker->unique()->safeEmail,
                 'avatar' => 'https://gcs.tripi.vn/public-tripi/tripi-feed/img/474114AbO/hinh-anh-jack-dep-trai-cute-dang-yeu-nhat-2021_013741456.jpg',
                 'address' => $faker->optional()->address,
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'status' => AccountStatus::ACTIVE,
                 'birthday' => $faker->optional()->date,
                 // 'email_verified_at' => $faker->optional()->dateTime,
-                'password' => Hash::make(value: '123456'), // Default password
+                'password' => '123456',
             ]);
         }
 

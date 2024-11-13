@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\Voucher;
 use App\Repositories\VoucherRepository;
 
 class VoucherService {
@@ -56,6 +57,10 @@ class VoucherService {
         $data['valid_from'] = date('Y-m-d', strtotime($data['valid_from']));
         $data['valid_until'] = date('Y-m-d', strtotime($data['valid_until']));
         $result = $this->voucherRepo->update($id, $data);
+        $voucher = Voucher::where('id','!=',$id)::where('code', operator: $data['name'])->first();
+        if($voucher){
+            return response()->json(['message' => 'Mã voucher đã tồn tại'], 400);
+        }
         if ($result) {
             return response()->json($result);
         } else {

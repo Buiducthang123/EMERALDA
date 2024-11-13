@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoomTypeRequest;
 use App\Services\RoomTypeService;
 use Illuminate\Http\Request;
 
@@ -27,12 +28,12 @@ class RoomTypeController extends Controller
         return $this->roomTypeService->getAll( $limit, $latest, $q, $filterRoomBooking);
     }
 
-    public function update(Request $request, $id)
+    public function update(RoomTypeRequest $request, $id)
     {
         return $this->roomTypeService->updateRoomType($request->all(), $id);
     }
 
-    public function create(Request $request)
+    public function create(RoomTypeRequest $request)
     {
         return $this->roomTypeService->create($request->all());
     }

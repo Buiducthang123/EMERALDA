@@ -16,11 +16,11 @@ return new class extends Migration
             $table->id();
             $table->json(column: 'room_ids');
             $table->json('customer_info'); // thông tin khách hàng
-            $table->string('voucher_code')->nullable(); // mã giảm giá
+            $table->string('voucher_code',20)->nullable(); // mã giảm giá
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // người dùng
-            $table->float('total_price', 8, 2); // tổng giá
-            $table->float('payable_amount', 8, 2); // số phải trả
-            $table->float('prepayment_amount', 8, 2)->default(0); // số tiền đã thanh toán
+            $table->float('total_price'); // tổng giá
+            $table->float('payable_amount'); // số phải trả
+            $table->float('prepayment_amount')->default(0); // số tiền đã thanh toán
             $table->enum('status', OrderStatus::getValues())->default(OrderStatus::PENDING); // trạng thái
             $table->timestamps();
         });
