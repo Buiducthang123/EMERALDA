@@ -23,6 +23,12 @@ class RoomTypeService
     public function updateRoomType($data, $id)
     {
         try {
+            $nameExit = RoomType::where('name', $data['name'])->where('id', '!=', $id)->first();
+            if($nameExit){
+                return response()->json([
+                    "message" => "Tên loại phòng đã tồn tại",
+                ], 400);
+            }
             $result = $this->roomTypeRepo->update($id, $data);
             if ($result) {
                 return response()->json([
