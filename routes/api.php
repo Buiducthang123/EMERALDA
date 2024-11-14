@@ -100,13 +100,12 @@ Route::post('/invoices',[InvoiceController::class,'store'])->name('invoices.stor
 Route::get('/invoices/booking',[InvoiceController::class,'findByBooking'])->name('invoices.findByBooking')->middleware('auth:sanctum');
 Route::post('/invoices/update-status',[InvoiceController::class,'updateStatus'])->name('invoices.updateStatus')->middleware('auth:sanctum');
 Route::get('/invoices/me',[InvoiceController::class,'me'])->name('invoices.me')->middleware('auth:sanctum');
-
+Route::get('/invoices',[InvoiceController::class,'getAll'])->name('invoices.all')->middleware(['auth:sanctum',AdminMiddleware::class]);
 //Statistical
 Route::get('/statistical',[StatisticalController::class,'statistical'])->middleware(['auth:sanctum',AdminMiddleware::class]);
-
+Route::get('/statistical/export',[StatisticalController::class,'export']);
 
 //RoomTypeReview
-
 Route::post('/room-type-reviews',[RoomTypeReviewController::class,'store'])->name('room-type-reviews.store')->middleware('auth:sanctum');
 Route::get('/room-type-reviews',[RoomTypeReviewController::class,'getAll'])->name('room-type-reviews.all')->middleware(['auth:sanctum',AdminMiddleware::class]);
 Route::delete('/room-type-reviews/{id}',[RoomTypeReviewController::class,'delete'])->name('room-type-reviews.delete')->middleware(['auth:sanctum',AdminMiddleware::class]);

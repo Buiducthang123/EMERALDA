@@ -44,11 +44,6 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
     protected function casts(): array
     {
         return [
