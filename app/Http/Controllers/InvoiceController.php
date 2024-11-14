@@ -46,5 +46,13 @@ class InvoiceController extends Controller
         return $this->invoiceRepository->me();
     }
 
+    public function getAll(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 10;
+        $latest = $request->latest ? $request->latest : true;
+        $q = $request->q ? $request->q : [];
+        return $this->invoiceRepository->getAll($limit, $latest, $q);
+    }
+
 
 }
