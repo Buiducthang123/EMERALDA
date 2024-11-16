@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId(column: 'room_id')->constrained('rooms')->onDelete('cascade'); // phòng
             $table->date(column: 'check_in_date'); // ngày check-in
             $table->date(column: 'check_out_date'); // ngày check-out
-            $table->decimal('total_price', 8, 2); // tổng giá
-            $table->decimal('paid_amount', 8, 2)->default(0); // số tiền đã thanh toán
+            $table->decimal('total_price', 15, 2); // tổng giá
+            $table->decimal('paid_amount', 15, 2)->default(0); // số tiền đã thanh toán
             $table->enum('status', BookingStatus::getValues())->default(BookingStatus::PENDING); // trạng thái
             $table->timestamps();
         });
