@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade'); // liên kết với bảng bookings
             $table->json('services')->nullable(); // dịch vụ
-            $table->decimal('total_amount', 15, 2); // tổng số tiền
+            $table->decimal('total_amount', 10, 2); // tổng số tiền
             $table->enum('type',  InvoiceType::getValues()); // loại hóa đơn
             $table->enum('status', InvoiceStatus::getValues())->default(InvoiceStatus::UNPAID); // trạng thái hóa đơn
             $table->timestamps();

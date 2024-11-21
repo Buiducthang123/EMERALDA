@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('thumbnails');
             $table->json('amenities')->nullable(); // tiện nghi trong phòng
             $table->unsignedInteger('max_people')->default(3); // Số người tối đa
-            $table->decimal('price', 15, 2); // giá
+            $table->decimal('price', 10, 2); // giá
             $table->unsignedInteger('area'); // diện tích
             $table->text('description')->nullable(); // mô tả
             $table->timestamps();

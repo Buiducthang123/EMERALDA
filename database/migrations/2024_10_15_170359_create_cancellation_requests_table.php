@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             //SỐ TIỀN HOÀN LẠI
             // $table->float(column: 'refund_amount');
-            $table->decimal('refund_amount', 15, 2);
+            $table->decimal('refund_amount', 10, 2);
             $table->enum('status', CancellationRequestStatus::getValues())->default(CancellationRequestStatus::PENDING);
             $table->timestamps();
         });

@@ -66,6 +66,17 @@ class StatisticalController extends Controller
                     'data' => [], // Dynamic data
                 ],
             ],
+            'options' => [
+                'scales' => [
+                    'y' => [
+                        'beginAtZero' => true,
+                        'ticks' => [
+                            'stepSize' => 1,
+                            'callback' => 'function(value) { return Number.isInteger(value) ? value : null; }',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         if ($interval === 'week') {
