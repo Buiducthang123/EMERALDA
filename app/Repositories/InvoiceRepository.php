@@ -26,13 +26,10 @@ class InvoiceRepository extends BaseRepository
 
         $booking = Booking::find($booking_id);
         $room_rate = $booking->total_price;
-        $paid_amount = $booking->paid_amount;
-        $total_amount = $room_rate - $paid_amount;
         $service_price = $data['service_price'];
-
         $invoice = $this->model->firstOrNew(['booking_id' => $booking_id]);
         $invoice->services = $services;
-        $invoice->total_amount = $total_amount + $service_price - $paid_amount;
+        $invoice->total_amount = $room_rate + $service_price;
         $invoice->type = InvoiceType::PAYMENT;
         $invoice->status = InvoiceStatus::UNPAID;
         $invoice->save();
