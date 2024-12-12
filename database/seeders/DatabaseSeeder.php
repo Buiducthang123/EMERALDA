@@ -23,8 +23,10 @@ class DatabaseSeeder extends Seeder
             RoomTypeSeeder::class,
             RoomSeeder::class,
             AmenitySeeder::class,
-            BookingSeeder::class,
+            // OrderSeeder::class,
+            // BookingSeeder::class,
             // VoucherSeeder::class,
+            // InvoicesSeeder::class
         ]);
     }
 }
